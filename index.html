@@ -63,6 +63,13 @@
             font-size: 1rem;
         }
 
+        .mode-toggle-btn {
+            background-color: #333;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
         .entry {
             border: 1px solid #ccc;
             margin: 8px 0;
@@ -75,13 +82,41 @@
             cursor: pointer;
             color: black;
             font-size: 1.4rem; 
-            text-transform: uppercase; /* FORCES ALL CAPS ALWAYS */
+            text-transform: uppercase; 
         }
 
         .definition {
             margin-top: 10px;
             color: blue;
             font-size: 1.8rem; 
+        }
+
+        /* QUIZ MODE STYLING */
+        #quiz-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #333;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .quiz-option-btn {
+            display: block;
+            width: 100%;
+            max-width: 400px;
+            margin: 10px auto;
+            padding: 12px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            background-color: #f0f0f0;
+            border: 1px solid #aaa;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .quiz-option-btn:hover {
+            background-color: #ddd;
         }
     </style>
 </head>
@@ -98,6 +133,8 @@
 
     <input type="file" onchange="importData(event)">
 
+    <button id="modeToggleBtn" class="mode-toggle-btn" onclick="toggleMode()">Switch to Test Mode</button>
+
     <br><br>
 
     <input id="newSubject" placeholder="Enter new subject">
@@ -106,27 +143,36 @@
 
     <br><br>
 
-    <select id="subjectSelector" onchange="render()"></select>
+    <select id="subjectSelector" onchange="handleSubjectChange()"></select>
 
     <button onclick="deleteSubject()">Delete Subject</button>
 
-    <div style="margin:15px 0;">
-        <input id="term" placeholder="Term">
+    <div id="study-panel">
+        <div style="margin:15px 0;">
+            <input id="term" placeholder="Term">
 
-        <input id="def" placeholder="Explanation or Formula">
+            <input id="def" placeholder="Explanation or Formula">
 
-        <button onclick="addEntry()">Add Entry</button>
+            <button onclick="addEntry()">Add Entry</button>
+        </div>
+
+        <input
+            id="searchBar"
+            placeholder="Search terms..."
+            oninput="render()"
+        >
     </div>
-
-    <input
-        id="searchBar"
-        placeholder="Search terms..."
-        oninput="render()"
-    >
 
     <h2 id="currentSubjectTitle"></h2>
 
     <div id="display"></div>
+
+    <div id="quiz-section" style="display: none;">
+        <h3>What term matches this definition/formula?</h3>
+        <div id="quiz-question" class="definition"></div>
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc;">
+        <div id="quiz-options"></div>
+    </div>
 
 </div>
 
